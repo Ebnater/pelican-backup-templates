@@ -45,6 +45,9 @@ class BackupTemplate extends Model
         });
     }
 
+    /**
+     * @return BelongsTo<Server, BackupTemplate>
+     */
     public function server(): BelongsTo
     {
         return $this->belongsTo(Server::class, 'server_id');
