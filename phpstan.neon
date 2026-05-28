@@ -4,12 +4,9 @@ includes:
 parameters:
 
     paths:
-        - src
+        - plugins
 
     level: 6
 
-    reportUnmatchedIgnoredErrors: false
-
     ignoreErrors:
-        - identifier: return.type
-          path: plugins/backup-templates/src/Models/BackupTemplate.php
+        - identifier: larastan.noEnvCallsOutsideOfConfig
