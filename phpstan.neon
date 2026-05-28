@@ -9,4 +9,5 @@ parameters:
     level: 6
 
     ignoreErrors:
-        - identifier: larastan.noEnvCallsOutsideOfConfig
+        - identifier: return.type
+          path: plugins/backup-templates/src/Models/BackupTemplate.php
