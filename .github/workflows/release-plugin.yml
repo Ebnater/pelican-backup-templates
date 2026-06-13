@@ -101,13 +101,13 @@ jobs:
           version="${{ github.event.inputs.version }}"
           repo="${{ github.repository }}"
           last_tag=$(git tag --list "${plugin_id}-*" --sort=-version:refname | head -n1)
-          range_arg=""
-          if [ -n "$last_tag" ]; then
-            range_arg="${last_tag}..HEAD"
-          fi
 
           # Collect commits: "hash subject" lines
-          commits=$(git log "$range_arg" --pretty=format:"%H %s")
+          if [ -n "$last_tag" ]; then
+            commits=$(git log "${last_tag}..HEAD" --pretty=format:"%H %s")
+          else
+            commits=$(git log --pretty=format:"%H %s")
+          fi
 
           declare -A sections
           sections[feat]=""
