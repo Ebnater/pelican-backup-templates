@@ -205,7 +205,7 @@ jobs:
 
       - name: Create zip archive
         run: |
-          tag_name="${{ needs.validate.outputs.tag_name }}"
+          tag_name="${{ needs.validate.outputs.plugin_id }}"
           zip -r "${tag_name}.zip" . -x "*.git*" ".github/*" "phpstan.neon" "pint.json" ".gitignore"
 
       - name: Create GitHub Release
