@@ -186,7 +186,7 @@ jobs:
           plugin_id="${{ needs.validate.outputs.plugin_id }}"
           version="${{ github.event.inputs.version }}"
           tag_name="${{ needs.validate.outputs.tag_name }}"
-          zip_url="https://github.com/${{ github.repository }}/releases/download/${tag_name}/${tag_name}.zip"
+          zip_url="https://github.com/${{ github.repository }}/releases/download/${tag_name}/${plugin_id}.zip"
 
           jq --arg v "$version" '.version = $v' plugin.json > tmp.json && mv tmp.json plugin.json
           jq --arg v "$version" --arg url "$zip_url" '.["*"].version = $v | .["*"].download_url = $url' update.json > tmp.json && mv tmp.json update.json
@@ -205,8 +205,8 @@ jobs:
 
       - name: Create zip archive
         run: |
-          tag_name="${{ needs.validate.outputs.tag_name }}"
-          zip -r "${tag_name}.zip" . -x "*.git*" ".github/*" "phpstan.neon" "pint.json" ".gitignore"
+          plugin_id="${{ needs.validate.outputs.plugin_id }}"
+          zip -r "${plugin_id}.zip" . -x "*.git*" ".github/*" "phpstan.neon" "pint.json" ".gitignore"
 
       - name: Create GitHub Release
         run: |
@@ -215,6 +215,6 @@ jobs:
           gh release create "$tag_name" \
             --title "${{ needs.validate.outputs.plugin_id }} v$version" \
             --notes-file CHANGELOG_NOTES.md \
-            "${tag_name}.zip"
+            "${{ needs.validate.outputs.plugin_id }}.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
