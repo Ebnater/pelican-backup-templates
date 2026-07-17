@@ -186,7 +186,7 @@ jobs:
           plugin_id="${{ needs.validate.outputs.plugin_id }}"
           version="${{ github.event.inputs.version }}"
           tag_name="${{ needs.validate.outputs.tag_name }}"
-          zip_url="https://github.com/${{ github.repository }}/releases/download/${tag_name}/${tag_name}.zip"
+          zip_url="https://github.com/${{ github.repository }}/releases/download/${tag_name}/${plugin_id}.zip"
 
           jq --arg v "$version" '.version = $v' plugin.json > tmp.json && mv tmp.json plugin.json
           jq --arg v "$version" --arg url "$zip_url" '.["*"].version = $v | .["*"].download_url = $url' update.json > tmp.json && mv tmp.json update.json
