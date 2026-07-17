@@ -205,8 +205,8 @@ jobs:
 
       - name: Create zip archive
         run: |
-          tag_name="${{ needs.validate.outputs.plugin_id }}"
-          zip -r "${tag_name}.zip" . -x "*.git*" ".github/*" "phpstan.neon" "pint.json" ".gitignore"
+          plugin_id="${{ needs.validate.outputs.plugin_id }}"
+          zip -r "${plugin_id}.zip" . -x "*.git*" ".github/*" "phpstan.neon" "pint.json" ".gitignore"
 
       - name: Create GitHub Release
         run: |
@@ -215,6 +215,6 @@ jobs:
           gh release create "$tag_name" \
             --title "${{ needs.validate.outputs.plugin_id }} v$version" \
             --notes-file CHANGELOG_NOTES.md \
-            "${tag_name}.zip"
+            "${{ needs.validate.outputs.plugin_id }}.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
